@@ -1,6 +1,6 @@
 require('dotenv').config()
 const port = process.env.PORT || 4000
-const { getBook, deleteBook, addBook } = require('./dal.js')
+const { getBook, deleteBook, addBook ,updateBook} = require('./dal.js')
 const express = require('express')
 const app = express()
 const HTTPError = require('node-http-error')
@@ -58,6 +58,35 @@ app.get('/books/:id', function(req, res, next) {
   getBook(req.params.id, function(err, doc) {
     if (err) return next(new HTTPError(err.status, err.message))
     res.status(200).send(doc)
+  })
+})
+
+app.put('/books/:id',(req,res,next)=>{
+  // check to make sure the request body exists
+  if (isEmpty(prop('body', req))) {
+    return next(
+      new HTTPError(
+        400,
+        'Missing request body.  Content-Type header should be application/json.'
+      )
+    )
+  }
+  const missingFields = checkRequiredFields(
+    ['_id','_rev','type','title', 'author', 'ISBN', 'genre', 'description'],
+    prop('body',req)
+  )
+
+  if (not(isEmpty(missingFields))) {
+    return next(
+      new HTTPError(
+        400,
+        `Missing Required Fields: ${join(', ', missingFields)}`
+      )
+    )
+  }
+  updateBook(prop('body',req),(err,updateResult)=>{
+    if(err) return next(new HTTPError(err.status,err.message))
+    res.status(200).send(updateResult)
   })
 })
 
