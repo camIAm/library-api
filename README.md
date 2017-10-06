@@ -51,32 +51,22 @@ $ npm start
 
 ## Endpoints
 
-## Books
+## Authors
 
-## Create a book - `POST /books`
+## Create a authors - `POST /authos`
 
-Add a book to the collection of books by providing a new book resource in the request body.
+
 
 **Example**
 
 ```
-POST /books
+POST /authors
 
 {
-  "title": "A Brave New World",
-  "author": "author_aldous_huxley",
-  "type": "book",
-  "publisher": "Penguin Books",
-  "ISBN": "12947281",
-  "genre": "Fiction",
-  "description": "Brave New World is a novel written in 1931 by Aldous Huxley, and published in 1932. Set in London in the year AD 2540 (632 A.F.—'After Ford'—in the book), the novel anticipates developments in reproductive technology, sleep-learning, psychological manipulation, and classical conditioning that are combined to make a profound change in society.",
-  "rating": 95,
-  "prices": [
-    {"type": "paperback", "price": 9.99},
-    {"type": "hardback", "price": 19.99},
-    {"type": "audio", "price": 19.99},
-    {"type": "kindle", "price": 12.99}
-  ]
+  "author": "author_aldous_huxley";
+  "name" :"Aldous Huxley",
+  "type": "author",
+  "placeOrBirth":"London"
 }
 ```
 
@@ -85,74 +75,49 @@ POST /books
 ```
 {
   "ok": true,
-  "id": "book_brave_new_world",
-  "rev": "1-A6157A5EA545C99B00FF904EEF05FD9F"
+  "id": "author_aldous_huxley",
+  "rev": "1-A6157A5EA545C99B00FF904EEF056KFRT"
 }
 ```
 
 
-## Get a book - `GET /books/{id}`
+## Get a author - `GET /author/{id}`
 
-Retrieves a single book by the book `{id}` route parameter.  
+Retrieves a single author by the author `{id}` route parameter.  
 
 **Example**
 
 ```
-GET /books/book_brave_new_world
+GET /author/author_aldous_huxley
 ```
 
 **Response 200**
 
 ```
 {
-  "_id": "book_brave_new_world",
-  "_rev": "2-e158939dfabc095988f9f4ddaa0e942e",
-  "title": "A Brave New World",
-  "author": "author_aldous_huxley",
-  "type": "book",
-  "publisher": "Penguin Books",
-  "ISBN": "12947281",
-  "pages": 254,
-  "genre": "Fiction",
-  "description": "Brave New World is a novel written in 1931 by A Huxley, and published in 1932. Set in London in the year AD 2540 (632 A.F.—'After Ford'—in the book), the novel anticipates developments in reproductive technology, sleep-learning, psychological manipulation, and classical conditioning that are combined to make a profound change in society.",
-  "rating": 95,
-  "prices": [
-    {
-      "type": "paperback",
-      "price": 9.99
-    },
-    {
-      "type": "hardback",
-      "price": 19.99
-    },
-    {
-      "type": "audio",
-      "price": 19.99
-    },
-    {
-      "type": "kindle",
-      "price": 12.99
-    }
-  ]
+  "author": "author_aldous_huxley";
+  "name" :"Aldous Huxley",
+  "type": "author",
+  "placeOrBirth":"London"
 }
 ```
 
 ### Route Parameters
 
-  - `id` - used to identify a book in the collection of books.
+  - `id` - used to identify a author in the collection of authors.
 
-## Update a book - `PUT /books/{id}`
+## Update a book - `PUT /authors/{id}`
 
-Updates a single book using the book `{id}` route parameter.
+Updates a single author using the author `{id}` route parameter.
 
-## Delete a book - `DELETE /books/{id}`
+## Delete a book - `DELETE /authors/{id}`
 
-Deletes a single book using the book `{id}` route parameter.
+Deletes a single author using the author `{id}` route parameter.
 
 **Example**
 
 ```
-DELETE /books/book_brave_new_world
+DELETE /author/author_aldous_huxley
 ```
 
 **Response 200**
@@ -160,16 +125,16 @@ DELETE /books/book_brave_new_world
 ```
 {
   "ok": true,
-  "id": "book_brave_new_world",
+  "id": "author_aldous_huxley",
   "rev": "2-9AF304BE281790604D1D8A4B0F4C9ADB"
 }
 ```
 
 
 
-## List the books - `GET /books`
+## List the books - `GET /authors`
 
-## TODO: Search the books = `GET /books?[author][genre][publisher]`
+## TODO: Search the books = `GET /authors?[books][placeOrBirth]`
 
 ### Query Parameters
 
@@ -177,4 +142,137 @@ DELETE /books/book_brave_new_world
   - publisher
   - genre
 
-  Example `GET \books?author=William F Buckley`
+  Example `GET \authors?placeOrBirth=London`
+  ## Books
+
+  ## Create a book - `POST /authors`
+
+  Add a book to the collection of books by providing a new book resource in the request body.
+
+  ## Books
+
+  ## Create a book - `POST /books`
+
+  Add a book to the collection of books by providing a new book resource in the request body.
+
+  **Example**
+
+  ```
+  POST /books
+
+  {
+    "title": "A Brave New World",
+    "author": "author_aldous_huxley",
+    "type": "book",
+    "publisher": "Penguin Books",
+    "ISBN": "12947281",
+    "genre": "Fiction",
+    "description": "Brave New World is a novel written in 1931 by Aldous Huxley, and published in 1932. Set in London in the year AD 2540 (632 A.F.—'After Ford'—in the book), the novel anticipates developments in reproductive technology, sleep-learning, psychological manipulation, and classical conditioning that are combined to make a profound change in society.",
+    "rating": 95,
+    "prices": [
+      {"type": "paperback", "price": 9.99},
+      {"type": "hardback", "price": 19.99},
+      {"type": "audio", "price": 19.99},
+      {"type": "kindle", "price": 12.99}
+    ]
+  }
+  ```
+
+  **Response 200**
+
+  ```
+  {
+    "ok": true,
+    "id": "book_brave_new_world",
+    "rev": "1-A6157A5EA545C99B00FF904EEF05FD9F"
+  }
+  ```
+
+
+  ## Get a book - `GET /books/{id}`
+
+  Retrieves a single book by the book `{id}` route parameter.  
+
+  **Example**
+
+  ```
+  GET /books/book_brave_new_world
+  ```
+
+  **Response 200**
+
+  ```
+  {
+    "_id": "book_brave_new_world",
+    "_rev": "2-e158939dfabc095988f9f4ddaa0e942e",
+    "title": "A Brave New World",
+    "author": "author_aldous_huxley",
+    "type": "book",
+    "publisher": "Penguin Books",
+    "ISBN": "12947281",
+    "pages": 254,
+    "genre": "Fiction",
+    "description": "Brave New World is a novel written in 1931 by A Huxley, and published in 1932. Set in London in the year AD 2540 (632 A.F.—'After Ford'—in the book), the novel anticipates developments in reproductive technology, sleep-learning, psychological manipulation, and classical conditioning that are combined to make a profound change in society.",
+    "rating": 95,
+    "prices": [
+      {
+        "type": "paperback",
+        "price": 9.99
+      },
+      {
+        "type": "hardback",
+        "price": 19.99
+      },
+      {
+        "type": "audio",
+        "price": 19.99
+      },
+      {
+        "type": "kindle",
+        "price": 12.99
+      }
+    ]
+  }
+  ```
+
+  ### Route Parameters
+
+    - `id` - used to identify a book in the collection of books.
+
+  ## Update a book - `PUT /books/{id}`
+
+  Updates a single book using the book `{id}` route parameter.
+
+  ## Delete a book - `DELETE /books/{id}`
+
+  Deletes a single book using the book `{id}` route parameter.
+
+  **Example**
+
+  ```
+  DELETE /books/book_brave_new_world
+  ```
+
+  **Response 200**
+
+  ```
+  {
+    "ok": true,
+    "id": "book_brave_new_world",
+    "rev": "2-9AF304BE281790604D1D8A4B0F4C9ADB"
+  }
+  ```
+
+
+
+  ## List the books - `GET /books`
+
+  ## TODO: Search the books = `GET /books?[author][genre][publisher]`
+
+  ### Query Parameters
+
+    - author
+    - publisher
+    - genre
+
+    Example `GET \books?author=William F Buckley`
