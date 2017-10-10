@@ -14,7 +14,7 @@ const dbURL =
     ? process.env.COUCH_URL_TEST
     : process.env.COUCH_URL
 
-console.log('db is' + dbURL + dbName)
+console.log('db is ' + dbURL + dbName)
 
 const db = new PouchDB(dbURL + dbName)
 
