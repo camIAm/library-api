@@ -10,24 +10,34 @@ console.log('db is' + dbURL + dbName)
 
 const db = new PouchDB(dbURL + dbName)
 
+////////////
+// Book
+////////////
 
-
-
-const deleteBook = id => delete(id)
+const deleteBook = id => remove(id)
 const updateBook = doc => update(doc)
 
-///
-const createAuthor = doc = add(doc)
+/////////////
+// Author
+///////////
+const getAuthor = id => get(id)
+const createAuthor = body => {
+  body._id = pkGen('author_','_',body.author.name)
+  return add(body)
+}
+
 
 ////////////
 // helpers
 ///////////
+const get = id => db.get(id)
 const add = doc => db.put(doc)
-const delete = id => db.get(id).then(data => db.remove(data))
+const remove = id => db.get(id).then(data => db.remove(data))
 const update = doc => db.put(doc)
 
 module.exports = {
   deleteBook,
   updateBook,
-  createAuthors
+  createAuthor,
+  getAuthor
 }
