@@ -1,43 +1,46 @@
-
-require('dotenv').config()
-
-const PouchDB = require('pouchdb')
 const pkGen = require('./lib/build-pk')
-const dbName = process.env.COUCH_DATABASE
-const dbURL = process.env.COUCH_URL
+const { prop, assoc } = require('ramda')
+const {
+  getBookTransformer,
+  postBookTransformer
+} = require('./lib/dal-mysql-transformers')
+const dalHelper =
+  process.env.DAL === 'mysql-dal' ? 'dal-mysql-helper' : 'dal-helper'
 
-console.log('db is' + dbURL + dbName)
+const {
+  add,
+  get,
+  update,
+  deleteDoc,
+  addMySQLBook
+} = require(`./lib/${dalHelper}`)
 
-const db = new PouchDB(dbURL + dbName)
+const addBook = book => {
+  book._id = pkGen('book', '_', book.title)
+  if (dalHelper === 'dal-mysql-helper') {
+    return addMySQLBook(book, 'book', postBookTransformer)
+  } else {
+    add(book)
+  }
+}
 
-////////////
-// Book
-////////////
-
-const deleteBook = id => remove(id)
-const updateBook = doc => update(doc)
-
-/////////////
-// Author
-///////////
+const getBook = id => get(id, 'vbookPrices', getBookTransformer)
+const updateBook = book => update(book)
+const deleteBook = id => deleteDoc(id)
+const addAuthor = author =>
+  add(assoc('_id', pkGen('author', '_', prop('name', author)), author))
 const getAuthor = id => get(id)
-const createAuthor = body => {
-  body._id = pkGen('author_','_',body.author.name)
-  return add(body)
-}
+const updateAuthor = author => update(author)
+const deleteAuthor = id => deleteDoc(id)
 
-
-////////////
-// helpers
-///////////
-const get = id => db.get(id)
-const add = doc => db.put(doc)
-const remove = id => db.get(id).then(data => db.remove(data))
-const update = doc => db.put(doc)
-
-module.exports = {
-  deleteBook,
+const dal = {
+  addBook,
+  getBook,
   updateBook,
-  createAuthor,
-  getAuthor
+  deleteBook,
+  addAuthor,
+  getAuthor,
+  updateAuthor,
+  deleteAuthor
 }
+module.exports = dal
