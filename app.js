@@ -5,6 +5,7 @@ const HTTPError = require('node-http-error')
 const port = process.env.PORT || 4000
 const bodyParser = require('body-parser')
 const {deleteBook} = require('./dal')
+const {prop, isEmpty, join, not, path} = require('ramda')
 app.use(bodyParser.json())
 
 
@@ -12,7 +13,13 @@ app.put('/books/:id' (req,res,next) => {
   if(isEmpty(prop('body', req))) {
     return next(new HTTPError(400, 'Missing Request Body'))
   }
-  
+  const missingFields = checkRequiredFields(['_id','_rev','type','title', 'author', 'ISBN', 'genre', 'description'], prop('body',req))
+  if (not(isEmpty(missingFields))) {
+    return next(new HTTPError(400, `Missing Required Fields: ${join(', ', missingFields)}`))
+  }
+  updateBook(prop('body',req))
+  .then(updatedResult => res.status(200).send(updatedResult))
+  .catch(err => next(new HTTPError(err.status, err.message)))
 })
 
 
@@ -25,5 +32,12 @@ app.delete('/books/:id', (req,res,next)=>{
   .catch(err => next(new HTTPError(err.status, err.message)))
 })
 
+app.use((err, req, res, next) => {console.log(prop('message', req),' ', prop('path', req), 'error', err)
+res.status(prop('status', err) || 500).send(err)
+})
 
-app.use((err, req, res, next) => {console.log(prop('message', req),' ', prop('path', req), 'error', err)})
+app.listen(port, () => {
+  console.log('API is up on port' + port)
+})
+
+module.exports = app
