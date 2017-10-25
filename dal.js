@@ -7,11 +7,21 @@ const {
 const dalHelper =
   process.env.DAL === 'mysql-dal' ? 'dal-mysql-helper' : 'dal-helper'
 
-const { add, get, update, deleteDoc } = require(`./lib/${dalHelper}`)
+const {
+  add,
+  get,
+  update,
+  deleteDoc,
+  addMySQLBook
+} = require(`./lib/${dalHelper}`)
 
 const addBook = book => {
   book._id = pkGen('book', '_', book.title)
-  return add(book, 'book', postBookTransformer)
+  if (dalHelper === 'dal-mysql-helper') {
+    return addMySQLBook(book, 'book', postBookTransformer)
+  } else {
+    add(book)
+  }
 }
 
 const getBook = id => get(id, 'vbookPrices', getBookTransformer)
