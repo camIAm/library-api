@@ -148,6 +148,7 @@ app.get('/books/:id', (req, res, next) =>
 )
 
 app.put('/books/:id', (req, res, next) => {
+  // check to make sure the request body exists
   if (isEmpty(prop('body', req))) {
     return next(
       new HTTPError(
@@ -170,10 +171,17 @@ app.put('/books/:id', (req, res, next) => {
       )
     )
   }
+  updateBook(prop('body', req), (err, updateResult) => {
+    if (err) return next(new HTTPError(err.status, err.message))
+    res.status(200).send(updateResult)
+  })
+})
 
-  updateBook(prop('body', req))
-    .then(updateResult => res.status(200).send(updateResult))
-    .catch(err => next(new HTTPError(err.status, err.message)))
+app.delete('/books/:id', function(req, res, next) {
+  deleteBook(req.params.id, function(err, deleteResponse) {
+    if (err) return next(new HTTPError(err.status, err.message))
+    res.status(200).send(deleteResponse)
+  })
 })
 
 app.delete('/books/:id', (req, res, next) =>
