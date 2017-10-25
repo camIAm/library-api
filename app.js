@@ -4,6 +4,7 @@ const app = express()
 const HTTPError = require('node-http-error')
 const port = process.env.PORT || 4000
 const bodyParser = require('body-parser')
+const checkRequiredFields = require('./checkRequiredFields.js')
 const {deleteBook,updateBook,createAuthor} = require('./dal')
 const {prop, isEmpty, join, not, path} = require('ramda')
 app.use(bodyParser.json())
@@ -44,7 +45,11 @@ app.post('/authors',(req,res,next)=>{
   if(not(isEmpty(missingFields))){
     return next(new HTTPError(400,`missing required fields: ${join(' ',missingFields)}`))
   }
-  
+
+  addAuthor(body)
+  .then(result => res.status(201).send(result))
+  .catch(err => next(new HTTPError(err.status, err.message)))
+  }
 })
 
 app.use((err, req, res, next) => {console.log(prop('message', req),' ', prop('path', req), 'error', err)
