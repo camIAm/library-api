@@ -21,6 +21,7 @@
   "homepage": "https://github.com/tripott/library-api#readme",
   "dependencies": {
     "express": "^4.16.1",
+    "pouchdb": "^6.3.4",
     "ramda": "^0.24.1"
   }
 }

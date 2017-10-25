@@ -104,8 +104,22 @@ Retrieves a single book by the book `{id}` route parameter.
 
 Updates a single book by the book `{id}` route parameter.
 
+## Delete a book - `DELETE /books/{id}`
 
+Delete a single book by the book `{id}` route parameter.
+ **Example**
 
+ ```
+ /books/book_brave_new_world
+ ```
+ **response 200**
+ ```
+ {
+   "ok": true,
+   "id": "book_brave_new_world",
+   "rev": "1-A6157A5EA545C99B00FF904EEF05FD9F"
+ }
+```
 ## List the books - `GET /books`
 
 ## TODO: Search the books = `GET /books?[author][genre][publisher]`
