@@ -104,6 +104,40 @@ Retrieves a single book by the book `{id}` route parameter.
 
 Updates a single book by the book `{id}` route parameter.
 
+
+**Example**
+
+```
+{
+  "_id": "book_brave_new_world"
+  "_rev": "2-349FN4039R023JNR20FJ30R2JME02"
+  "title": "A Brave New World",
+  "author": "author_aldous_huxley",
+  "type": "book",
+  "publisher": "Penguin Books",
+  "ISBN": "12947281",
+  "genre": "Fiction",
+  "description": "Brave New World is a novel written in 1931 by Aldous Huxley, and published in 1932. Set in London in the year AD 2540 (632 A.F.—'After Ford'—in the book), the novel anticipates developments in reproductive technology, sleep-learning, psychological manipulation, and classical conditioning that are combined to make a profound change in society.",
+  "rating": 95,
+  "prices": [
+    {"type": "paperback", "price": 9.99},
+    {"type": "hardback", "price": 19.99},
+    {"type": "audio", "price": 19.99},
+    {"type": "kindle", "price": 12.99}
+  ]
+}
+```
+
+**Response 200**
+
+```
+{
+  "ok": true,
+  "id": "book_brave_new_world",
+  "rev": "3-A6157A5EA545C99B09FU24NF29JFE"
+}
+```
+
 ## Delete a book - `DELETE /books/{id}`
 
 Delete a single book by the book `{id}` route parameter.

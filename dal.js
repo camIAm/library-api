@@ -14,12 +14,14 @@ const db = new PouchDB(dbURL + dbName)
 
 
 const deleteBook = id => delete(id)
+const updateBook = doc => update(doc)
 
 
-//////////
+////////////
 // helpers
 ///////////
 
-const delete = id => db.remove(id)
+const delete = id => db.get(id).then(data => db.remove(data))
+const update = doc => db.put(doc)
 
 module.exports = {deleteBook}
