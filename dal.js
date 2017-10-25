@@ -16,12 +16,18 @@ const db = new PouchDB(dbURL + dbName)
 const deleteBook = id => delete(id)
 const updateBook = doc => update(doc)
 
+///
+const createAuthor = doc = add(doc)
 
 ////////////
 // helpers
 ///////////
-
+const add = doc => db.put(doc)
 const delete = id => db.get(id).then(data => db.remove(data))
 const update = doc => db.put(doc)
 
-module.exports = {deleteBook}
+module.exports = {
+  deleteBook,
+  updateBook,
+  createAuthors
+}

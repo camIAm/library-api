@@ -4,7 +4,7 @@ const app = express()
 const HTTPError = require('node-http-error')
 const port = process.env.PORT || 4000
 const bodyParser = require('body-parser')
-const {deleteBook} = require('./dal')
+const {deleteBook,updateBook,createAuthor} = require('./dal')
 const {prop, isEmpty, join, not, path} = require('ramda')
 app.use(bodyParser.json())
 
@@ -22,14 +22,29 @@ app.put('/books/:id' (req,res,next) => {
   .catch(err => next(new HTTPError(err.status, err.message)))
 })
 
-
-
-
-
 app.delete('/books/:id', (req,res,next)=>{
   deleteBook(path(['params','id'],req))
   .then(response => res.status(200).send(response))
   .catch(err => next(new HTTPError(err.status, err.message)))
+})
+
+
+
+app.post('/authors',(req,res,next)=>{
+  if(isEmpty(prop('body',req))){
+    next(new HTTPError(400,"request body not given"))
+  }
+  const body = compose(
+      omit(['_id','_rev']),
+      merge(__,{type:'author'}),
+      prop('body')
+      )(req)
+
+  const missingFields = checkRequiredFields(['name','placeOfBirth','birthDate'],body)
+  if(not(isEmpty(missingFields))){
+    return next(new HTTPError(400,`missing required fields: ${join(' ',missingFields)}`))
+  }
+  
 })
 
 app.use((err, req, res, next) => {console.log(prop('message', req),' ', prop('path', req), 'error', err)
